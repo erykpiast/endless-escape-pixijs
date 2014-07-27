@@ -1,0 +1,23 @@
+/* ### main.css >> */
+
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	min-height: 100%;
+	padding: 0;
+	position: relative;
+}
+
+body > canvas {
+	left: 50%;
+	position: absolute;
+	top: 50%;
+	transform: translateX( -50% ) translateY( -50% );
+}
+
+/* << main.css ### */
+
+
