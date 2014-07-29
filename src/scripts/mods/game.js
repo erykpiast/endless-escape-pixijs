@@ -13,6 +13,8 @@ define([
 
 		this._tileSize = 32;
 
+		this._speed = this._tileSize * 2;  // px/s
+
 		this._stage = new Pixi.Stage(0x00CC00);
 		this._renderer = new Pixi.autoDetectRenderer(this._tileSize * 16, this._tileSize * 12);
 
@@ -21,16 +23,24 @@ define([
 		this._scroller = new ParallaxScroller({
 			direction: 'toLeft',
 			texturesDir: '../dist/resources/textures',
+			axis: 'x',
+			speed: this._speed,
 			layers: {
 				'far': {
 					zIndex: 0,
 					change: 0.1,
-					texture: 'bg-far.png'
+					texture: 'bg-far.png',
+					width: this._tileSize * 16,
+					height: this._tileSize * 8,
+					top: 0
 				},
 				'mid': {
 					zIndex: 1,
-					change: 0.2,
-					texture: 'bg-far.png'
+					change: 0.5,
+					texture: 'bg-mid.png',
+					width: this._tileSize * 16,
+					height: this._tileSize * 8,
+					top: this._tileSize * 4
 				},
 				'front': new GameMap({
 					change: 1
@@ -46,13 +56,21 @@ define([
 		start: function() {
 			var that = this;
 
-			(function drawFrame() {
-				that._drawFrame();
+			(function drawFrame(currentFrameTime) {
+				that._drawFrame(that._lastFrameTime, currentFrameTime);
+
+				that._lastFrameTime = currentFrameTime;
 
 				window.requestAnimationFrame(drawFrame);
-			}).call(that);
+			}).call(that, this._lastFrameTime = window.performance.now());
+
+			setInterval(function() {
+				that._scroller.setSpeed(that._speed *= 1.001);
+			}, 1000/30);
 		},
-		_drawFrame: function() {
+		_drawFrame: function(lastTime, currentTime) {
+			this._scroller.update(currentTime - lastTime);
+
 			this._renderer.render(this._stage);
 		}
 	};

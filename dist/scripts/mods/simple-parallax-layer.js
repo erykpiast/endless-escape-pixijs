@@ -8,20 +8,21 @@ define([
 		Pixi.DisplayObjectContainer.call(this);
 
 		this._sprite = new Pixi.TilingSprite(
-			new Pixi.Texture.fromImage(config.texture),
+			Pixi.Texture.fromImage(config.texture),
 			config.width,
 			config.height
 		);
-		this.addChild(this._sprite);
 
-		this._change = config.change;
-
-		this._sprite.position.x = 0;
-		this._sprite.position.y = 0;
+		this._sprite.position.x = config.left || 0;
+		this._sprite.position.y = config.top || 0;
 		this._sprite.tilePosition.x = 0;
 		this._sprite.tilePosition.y = 0;
 
+		this.addChild(this._sprite);
+
 		this._currentPoint = 0;
+		this._change = config.change;
+		this._axis = config.axis;
 	}
 
 
@@ -32,7 +33,9 @@ define([
 
 		this._currentPoint = point;
 
-		this._sprite.tilePosition[this._axis] += (distance * this._chage);
+		var delta = (distance * this._change);
+
+		this._sprite.tilePosition[this._axis] += delta;
 	};
 
 

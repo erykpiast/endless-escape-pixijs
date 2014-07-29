@@ -19,8 +19,6 @@ define([
 		var distance = point - this._currentPoint;
 
 		this._currentPoint = point;
-
-		console.log(distance);
 	};
 
 
