@@ -523,7 +523,7 @@
 			"file": "src/scripts/mods/game.js",
 			"settings":
 			{
-				"buffer_size": 1060,
+				"buffer_size": 2178,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,7 +531,7 @@
 			"file": "src/scripts/mods/simple-parallax-layer.js",
 			"settings":
 			{
-				"buffer_size": 837,
+				"buffer_size": 913,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "src/scripts/mods/game-map.js",
 			"settings":
 			{
-				"buffer_size": 442,
+				"buffer_size": 1071,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "src/scripts/mods/parallax-scroller.js",
 			"settings":
 			{
-				"buffer_size": 852,
+				"buffer_size": 1269,
 				"line_ending": "Unix"
 			}
 		},
@@ -864,13 +864,14 @@
 	},
 	"file_history":
 	[
+		"/home/eryk/endless-runner-pixijs/requirejs-seed.sublime-project",
+		"/home/eryk/endless-runner-pixijs/endless-runner-pixijs.sublime-project",
 		"/media/MAGAZYN/Masters.of.Sex.S01E10.HDTV.x264-ASAP.txt",
 		"/home/eryk/endless-runner-pixijs/src/app.build.js",
 		"/home/eryk/endless-runner-pixijs/src/scripts/main.js",
 		"/home/eryk/endless-runner-pixijs/gruntfile.js",
 		"/home/eryk/endless-runner-pixijs/src/styles/main.css",
 		"/home/eryk/endless-runner-pixijs/.jshintrc",
-		"/home/eryk/endless-runner-pixijs/requirejs-seed.sublime-project",
 		"/home/eryk/endless-runner-pixijs/demo/index.html",
 		"/home/eryk/endless-runner-pixijs/bower.json",
 		"/home/eryk/endless-runner-pixijs/README.md",
@@ -990,8 +991,7 @@
 		"/home/e.napierala/NetBeansProjects/user-metrics/front/Gruntfile/webapp-migration/dist/copy.js",
 		"/home/e.napierala/NetBeansProjects/user-metrics/front/apps/webapp-migration/app/app.js",
 		"/home/e.napierala/NetBeansProjects/user-metrics/front/apps/webapp-migration/app/states/root/views/header/directives/projects-menu/root__header__projects-menu.template.html",
-		"/home/e.napierala/NetBeansProjects/user-metrics/front/apps/webapp-migration/bower.json",
-		"/home/e.napierala/NetBeansProjects/user-metrics/front/apps/webapp-migration/app/states/root/sub/project/sub/one/sub/recording/sub/list/views/content/recording__list__content.view.template.html"
+		"/home/e.napierala/NetBeansProjects/user-metrics/front/apps/webapp-migration/bower.json"
 	],
 	"find":
 	{
@@ -1332,7 +1332,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -1341,26 +1341,30 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1060,
+						"buffer_size": 2178,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								739,
-								739
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage"
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
+							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage",
+							"tabs_extra_last_activated": 1406921763.64,
+							"tabs_extra_last_activated_view_index": 0,
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1369,20 +1373,24 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 837,
+						"buffer_size": 913,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								228,
-								228
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage"
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
+							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage",
+							"tabs_extra_last_activated": 1406921769.76,
+							"tabs_extra_last_activated_view_index": 1,
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1397,26 +1405,30 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 442,
+						"buffer_size": 1071,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								263,
-								263
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage"
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
+							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage",
+							"tabs_extra_last_activated": 1406921781.2,
+							"tabs_extra_last_activated_view_index": 2,
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1425,27 +1437,31 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 852,
+						"buffer_size": 1269,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								793,
-								793
+								0,
+								0
 							]
 						],
 						"settings":
 						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
 							"nodePath": "node",
-							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage",
+							"tabs_extra_last_activated": 1406921845.76,
+							"tabs_extra_last_activated_view_index": 3,
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1467,14 +1483,17 @@
 						],
 						"settings":
 						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
 							"nodePath": "node",
-							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage",
+							"tabs_extra_last_activated": 1406921866.1,
+							"tabs_extra_last_activated_view_index": 4
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1515,7 +1534,7 @@
 	{
 		"height": 590.0
 	},
-	"project": "requirejs-seed.sublime-project",
+	"project": "endless-runner-pixijs.sublime-project",
 	"replace":
 	{
 		"height": 46.0

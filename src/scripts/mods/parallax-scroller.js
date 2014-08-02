@@ -11,7 +11,7 @@ define([
 	function ParallaxScroller(config) {
 		Pixi.DisplayObjectContainer.call(this);
 
-		this._layers = Util.mapObject(config.layers, function(layer) {
+		this._layers = Util.mapValues(config.layers, function(layer) {
 			if(!(layer instanceof SimpleParallaxLayer) && layer.texture) {
 				layer = new SimpleParallaxLayer({
 					texture: config.texturesDir.replace(/\/$/, '') + '/' + layer.texture,
@@ -39,8 +39,6 @@ define([
 
 	ParallaxScroller.prototype.update = function(timeDiff) {
 		var delta = this._speed * (timeDiff / 1000);
-
-		// console.log(delta);
 
 		this._moveTo(this._currentPosition -= delta);
 	};

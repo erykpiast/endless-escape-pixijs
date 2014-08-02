@@ -1,0 +1,30 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*~",
+				"*~~",
+				"*.jpg",
+				"*.png",
+				"*.pdf",
+				"*.odt",
+				"*.gif",
+				"*.ico",
+				"*.sublime-project",
+				"*.sublime-workspace"
+			],
+			"folder_exclude_patterns":
+			[
+				"icons",
+				".sass-cache",
+				".crt",
+				".tmp"
+			],
+			"follow_symlinks": true,
+			"name": "Endless Runner Pixijs",
+			"path": "."
+		}
+	]
+}
