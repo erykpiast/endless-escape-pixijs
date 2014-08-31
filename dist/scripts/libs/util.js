@@ -7,9 +7,16 @@ define([ 'underscore' ], function UtilModule(_) {
 
 		this.each(list, function(value, key) {
 			res[key] = iterator.call(context || null, value, key, list);
-		});
+		}, this);
 
 		return res;
+	};
+
+
+	Util.setValues = function(list, iterator, context) {
+		this.each(list, function(value, key, list) {
+			list[key] = iterator.call(context || null, value, key, list);
+		}, this);
 	};
 
 

@@ -21,8 +21,13 @@ define([
 
 		this._texturesDir = '/dist/resources/textures';
 
+		this._stageSize = {
+			width: this._tileSize * 16,
+			height: this._tileSize * 12
+		};
+
 		this._stage = new Pixi.Stage(0x00CC00);
-		this._renderer = new Pixi.autoDetectRenderer(this._tileSize * 16, this._tileSize * 12);
+		this._renderer = new Pixi.CanvasRenderer(this._stageSize.width, this._stageSize.height);
 
 		this._container.appendChild(this._renderer.view);
 
@@ -50,7 +55,8 @@ define([
 						top: this._tileSize * 4
 					},
 					'front': new GameMap({
-						change: 1
+						change: 1,
+						sceneWidth: this._stageSize.width
 					})
 				}
 			});
@@ -76,7 +82,7 @@ define([
 				})(self._lastFrameTime = window.performance.now());
 
 				setInterval(function increaseSpeed() {
-					self._scroller.setSpeed(self._speed *= 1.001);
+					self._scroller.setSpeed(self._speed *= 1.0001);
 				}, 1000/30);
 			});
 		},

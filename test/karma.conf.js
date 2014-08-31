@@ -14,7 +14,12 @@ module.exports = function (config) {
         autoWatch: false,
         background: true,
 
+        /*
+        browsers: [ 'Chrome' ],
+        singleRun: false
+        /*/
         browsers: [ 'PhantomJS' ],
-        singleRun: true
+        singleRun: true    
+        //*/
     });
 };

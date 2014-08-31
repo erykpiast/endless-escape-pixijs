@@ -1,14 +1,10 @@
-define([
-	'./wall-segment'
-], function(
-	WallSegment
-) {
+define([ './wall-segment' ], function(WallSegment) {
 
-	function WallSegmentPool(amount, settings) {
+	function WallSegmentPool(texture, amount, flipHorizontally) {
 		this._segments = [ ];
 
 		for(var i = 0; i < amount; i++) {
-			this._segments.push(new WallSegment(settings.texture, settings.flipHorizontally, settings.anchor));
+			this._segments.push(new WallSegment(texture, flipHorizontally));
 		}
 	}
 

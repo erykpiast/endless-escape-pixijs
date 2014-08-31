@@ -523,7 +523,7 @@
 			"file": "src/scripts/mods/game.js",
 			"settings":
 			{
-				"buffer_size": 2178,
+				"buffer_size": 2356,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "src/scripts/mods/game-map.js",
 			"settings":
 			{
-				"buffer_size": 1071,
+				"buffer_size": 6922,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "src/scripts/mods/parallax-scroller.js",
 			"settings":
 			{
-				"buffer_size": 1269,
+				"buffer_size": 1243,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,7 +555,7 @@
 			"file": "src/scripts/libs/util.js",
 			"settings":
 			{
-				"buffer_size": 289,
+				"buffer_size": 634,
 				"line_ending": "Unix"
 			}
 		}
@@ -1341,7 +1341,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2178,
+						"buffer_size": 2356,
 						"regions":
 						{
 						},
@@ -1405,7 +1405,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1071,
+						"buffer_size": 6922,
 						"regions":
 						{
 						},
@@ -1420,9 +1420,10 @@
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Monokai (SL).tmTheme",
 							"syntax": "Packages/Better JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
 							"tabs_extra_last_activated": 1406921781.2,
 							"tabs_extra_last_activated_view_index": 2,
-							"translate_tabs_to_spaces": false
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1437,7 +1438,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1269,
+						"buffer_size": 1243,
 						"regions":
 						{
 						},
@@ -1470,15 +1471,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 289,
+						"buffer_size": 634,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								78,
-								78
+								0,
+								0
 							]
 						],
 						"settings":

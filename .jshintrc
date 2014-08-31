@@ -8,6 +8,7 @@
         "beforeEach": true,
         "afterEach": true,
     /* << Jasmine */
+        "Squire": true,
         "define": true,
         "require": true
     },

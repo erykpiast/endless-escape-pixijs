@@ -24,7 +24,10 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('test', [
-        'dist',
+        'jshint',
+        'clean:dist',
+        'clean:bower',
+        'build:dev',
         'karma:unit',
         'watch:test'
     ]);
@@ -53,6 +56,7 @@ module.exports = function (grunt) {
                 }
             },
             spec: {
+                dir: 'test',
                 main: 'test/main.js',
                 files: 'src/scripts/**/*.spec.js'
             },
@@ -131,7 +135,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= config.src.js.dir %>',
-                    src: '**',
+                    src: [ '**', '!**/*.spec.js', '!**/spec' ],
                     dest: '<%= config.dist %>/scripts'
                 }]
             },
@@ -221,10 +225,15 @@ module.exports = function (grunt) {
             },
             test: {
                 files: [
-                    '<%= config.src.js.files %>',
-                    '<%= config.spec.files %>'
+                    '<%= config.src.js.files %>'
                 ],
-                tasks: [ 'dist', 'karma:unit:run' ]
+                tasks: [
+                    'jshint',
+                    'clean:dist',
+                    'clean:bower',
+                    'build:dev',
+                    'karma:unit'
+                ]
             }
         },
         jshint: {
@@ -261,7 +270,8 @@ module.exports = function (grunt) {
                 options: {
                     configFile: 'test/karma.conf.js',
                     files: [
-                        '<%= config.dist %>/<%= pkg.name %>.js',
+                        '<%= config.spec.dir %>/phantomjs-extensions.js',
+                        { pattern: '<%= config.dist %>/**/*', included: false },
                         { pattern: 'bower_components/**/*', included: false },
                         { pattern: 'src/scripts/**/*.spec.js', included: false },
                         'test/main.js'
