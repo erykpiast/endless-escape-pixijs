@@ -82,12 +82,52 @@ define([
         };
 
         this._minHeight = 1;
-        this._currentHeight = 3;
         this._maxHeight = 5;
+        this._currentHeight = 3;
+
+        this._lastSegmentX = -Segment.WIDTH;
 
         this._segments = [ ];
 
-        for(var i = 0, maxi = Math.floor(this._sceneWidth / Segment.WIDTH) + 1; i < maxi; i++) {
+        // this._createSegment({
+        //     type: 'wall',
+        //     height: this._currentHeight
+        // });
+
+        // this._createSegment({
+        //     type: 'wall',
+        //     height: this._currentHeight - 1
+        // });
+
+        // this._createSegment({
+        //     type: 'wall',
+        //     height: this._currentHeight
+        // });
+
+        // this._createSegment({
+        //     type: 'wall',
+        //     height: this._currentHeight + 1
+        // });
+
+        // this._createSegment({
+        //     type: 'wall',
+        //     height: this._currentHeight
+        // });
+
+        // this._createSegment({
+        //     type: 'gap'
+        // });
+
+        // this._createSegment({
+        //     type: 'gap'
+        // });
+
+        // this._createSegment({
+        //     type: 'wall',
+        //     height: this._currentHeight - 2
+        // });
+
+        for(var i = 0, maxi = Math.floor(this._sceneWidth / Segment.WIDTH) + 2; i < maxi; i++) {
             this._createSegment({
                 type: 'wall',
                 height: this._currentHeight
@@ -265,10 +305,30 @@ define([
             } else {
                 segment.height = this._drawHeight(precedingGaps);
             }
+
+            // don't allow to draw height differ from current more than one
+            this._chances.height.setValues(function(value, key) {
+                var parsedKey = parseInt(key, 10);
+                var diff = Math.abs(this._currentHeight - parsedKey);
+
+                if(diff > 1) {
+                    return -Infinity;
+                }
+            }, this);
         }
 
         if(segment.height !== prevSegment.height) {
+            // don't allow drawing height different than current directly after change
+            this._chances.height.setValues(function(value, key) {
+                var parsedKey = parseInt(key, 10);
+
+                if(parsedKey !== this._currentHeight) {
+                    return -Infinity;
+                }
+            }, this);
+
             if((segment.type === 'wall') && (prevSegment.type === 'wall')) {
+                    // set visual style for transition
                 if(segment.height > prevSegment.height) {
                     segment.variant = 'lth';
                 } else if(segment.height < prevSegment.height) {
@@ -283,15 +343,23 @@ define([
         if((segment.type === 'wall') && (prevSegment.type === 'gap')) {
             segment.variant = 'front';
         } else if((segment.type === 'gap') && (prevSegment.type === 'wall')) {
+            var prevSegmentX = prevSegment.element.position.x;
+            this._segmentsPools[prevSegment.variant].giveBack(prevSegment.element);
+
             prevSegment.variant = 'back';
+
+            prevSegment.element = this._segmentsPools[prevSegment.variant].take();
+            prevSegment.element.setHeight(prevSegment.height);
+            this.addChild(prevSegment.element);
+            prevSegment.element.position.x = prevSegmentX;
         } else if((segment.type === 'wall') && !segment.variant) {
             segment.variant = this._drawDecoration();
         }
 
         // if segment is transition between different heights, it can't be the last segment before gap
         if((segment.variant === 'lth') || (segment.variant === 'htl')) {
-            this._chances.gap = -Infinity;
-            this._chances.wall = Infinity;
+            this._chances.segment.gap = -Infinity;
+            this._chances.segment.wall = Infinity;
         }
 
 
@@ -303,7 +371,7 @@ define([
             segment.element = this._segmentsPools[segment.type].take();
         }
 
-        segment.element.position.x = Segment.WIDTH + (this._segments.length ? this._segments[this._segments.length - 1].element.position.x : 0);
+        segment.element.position.x = this._lastSegmentX = Segment.WIDTH + this._lastSegmentX;
         this.addChild(segment.element);
 
         this._segments.push(segment);

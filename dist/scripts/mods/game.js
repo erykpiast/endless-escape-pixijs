@@ -18,6 +18,7 @@ define([
 		this._tileSize = 32;
 
 		this._speed = this._tileSize * 2;  // px/s
+		// this._speed = 0;
 
 		this._texturesDir = '/dist/resources/textures';
 

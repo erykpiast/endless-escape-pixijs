@@ -19,6 +19,10 @@ define([
 
 	GapSegmentPool.prototype.giveBack = function(segment) {
 		this._segments.push(segment);
+
+		if(segment.parent) {
+			segment.parent.removeChild(segment); // remove from stage
+		}
 	};
 
 
