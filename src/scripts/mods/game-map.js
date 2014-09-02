@@ -167,72 +167,13 @@ define([
     };
 
     GameMap.prototype._draw = function(list) {
-        var totalWeight = Util.sum(list);
-        var randomNum = Util.random(0, totalWeight);
-        var weightSum = 0;
-        var drawn;
-        
-        Util.every(list, function(weight, el) {
-            weightSum += weight;
-             
-            if (randomNum <= weightSum) {
-                drawn = el;
+        var el = Util.draw(list);
 
-                return false;
-            } else {
-                return true;
-            }
-        });
-
-        return drawn;
+        return el;
     };
 
-    GameMap.prototype._drawHeight = function(precedingGaps) {
-        if(precedingGaps > 0) {
-            this._chances.height.setValues(function(value, key) {
-                var parsedKey = parseInt(key, 10);
-
-                if(parsedKey > (this._currentHeight - precedingGaps)) {
-                    // don't allow drawing great height if a lot of gaps is before the wall
-                    return -Infinity;
-                }
-            }, this);
-        }
-
-        var height = parseInt(this._draw(this._chances.height), 10);
-        var greaterMod = 0;
-        var lesserMod = 0;
-
-        // if drawn height is closer to max height, increase chances of lesser heights, otherwise - greater ones
-        if((this._maxHeight - height) > (height - this._minHeight)) {
-            greaterMod = +2;
-            lesserMod = -1;
-        } else {
-            greaterMod = -1;
-            lesserMod = +1;
-        }
-
-        this._chances.height.setValues(function(value, key) {
-            var parsedKey = parseInt(key, 10);
-            var diff = (parsedKey - height);
-
-            if(parsedKey > height) {
-                if(diff > 2) {
-                    // don't allow drawing height greater more than 2
-                    return -Infinity;
-                } else {
-                    return (value + greaterMod);
-                }
-            } else if(parsedKey < height) {
-                return (value + lesserMod);
-            } else {
-                // decrease chance of drawing the same height
-                return (value - 1);
-            }
-        }, this);
-
-
-        return height;
+    GameMap.prototype._drawHeight = function() {
+        return parseInt(this._draw(this._chances.height), 10);
     };
 
 
@@ -261,11 +202,11 @@ define([
 
             this._chances.segment.gap = precedingWalls;
         } else if(segmentType === 'gap') {
-            if(precedingGaps < (this._currentHeight - 1)) {
-                this._chances.segment.gap++;
+            if((precedingGaps + 1) >= this._currentHeight) {
+                this._chances.segment.gap = -Infinity;
+                this._chances.segment.wall = Infinity;
             } else {
-                this._chances.segment.gap = 0;
-                this._chances.segment.wall = 10;
+                this._chances.segment.gap++;
             }
         }
 
@@ -303,30 +244,83 @@ define([
             if('undefined' !== typeof settings.height) {
                 segment.height = settings.height;
             } else {
-                segment.height = this._drawHeight(precedingGaps);
+                segment.height = this._drawHeight();
             }
 
+            this._currentHeight = segment.height;
+        }
+
+        if(segment.type === 'wall') {
+            if(precedingGaps > 0) {
+            // don't allow drawing great height if a lot of gaps is before the wall
+                var currentHeight = Math.max(1, this._currentHeight - precedingGaps);
+                this._chances.height.setValues(function(value, key) {
+                    var parsedKey = parseInt(key, 10);
+
+                    if(parsedKey > currentHeight) {
+                        return -Infinity;
+                    } else {
+                        // let to draw any height
+                        return Math.max(1, value);
+                    }
+                }, this);
+            }
+
+            if(segment.height !== prevSegment.height) {
+            // don't allow drawing height different than current directly after height change
+                this._chances.height.setValues(function(value, key) {
+                    var parsedKey = parseInt(key, 10);
+
+                    if(parsedKey !== this._currentHeight) {
+                        return -Infinity;
+                    } else {
+                        return Math.max(1, value);
+                    }
+                }, this);
+            } else {
             // don't allow to draw height differ from current more than one
+                this._chances.height.setValues(function(value, key) {
+                    var parsedKey = parseInt(key, 10);
+                    var diff = Math.abs(this._currentHeight - parsedKey);
+
+                    var greaterMod = 0;
+                    var lesserMod = 0;
+
+                    // if drawn height is closer to max height, increase chances of lesser heights, otherwise - greater ones
+                    if((this._maxHeight - this._currentHeight) > (this._currentHeight - this._minHeight)) {
+                        greaterMod = +2;
+                        lesserMod = -1;
+                    } else {
+                        greaterMod = -1;
+                        lesserMod = +1;
+                    }
+
+                    if(diff > 1) {
+                        return -Infinity;
+                    } else if(parsedKey > this._currentHeight) {
+                        return (value + greaterMod);
+                    } else if(parsedKey < this._currentHeight) {
+                        return (value + lesserMod);
+                    } else {
+                        return value;
+                    }
+                }, this);
+            }
+        } else if(segment.type === 'gap') {
             this._chances.height.setValues(function(value, key) {
                 var parsedKey = parseInt(key, 10);
-                var diff = Math.abs(this._currentHeight - parsedKey);
 
-                if(diff > 1) {
+                if(parsedKey > this._currentHeight) {
                     return -Infinity;
+                } else if(parsedKey < this._currentHeight) {
+                    return (value + 1);
+                } else {
+                    return value;
                 }
             }, this);
         }
 
         if(segment.height !== prevSegment.height) {
-            // don't allow drawing height different than current directly after change
-            this._chances.height.setValues(function(value, key) {
-                var parsedKey = parseInt(key, 10);
-
-                if(parsedKey !== this._currentHeight) {
-                    return -Infinity;
-                }
-            }, this);
-
             if((segment.type === 'wall') && (prevSegment.type === 'wall')) {
                     // set visual style for transition
                 if(segment.height > prevSegment.height) {
@@ -335,8 +329,6 @@ define([
                     segment.variant = 'htl';
                 }
             }
-
-            this._currentHeight = segment.height;
         }
 
         

@@ -26,6 +26,45 @@ define([ 'underscore' ], function UtilModule(_) {
         });
     };
 
+    Util.draw = function(list) {
+        if(this.some(list, function(value) {
+            return (value < 0);
+        })) {
+            throw new Error('weights have to be greater or equal 0');
+        }
+
+        var totalWeight = Util.sum(list);
+
+        if(totalWeight <= 0) {
+            throw new Error('weights sum have to be greater than 0');
+        }
+
+        var randomNum = this.random(0, totalWeight);
+        var weightSum = 0;
+        var drawn;
+
+        var sorted = [ ];
+        this.forEach(list, function(weight, el) {
+            if(weight !== 0) {
+                sorted.push({ weight: weight, el: el });
+            }
+        });
+
+        this.sortBy(sorted, 'weight').every(function(obj) {
+            weightSum += obj.weight;
+             
+            if (randomNum <= weightSum) {
+                drawn = obj.el;
+
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        return drawn;
+    };
+
 
 	return Util;
 

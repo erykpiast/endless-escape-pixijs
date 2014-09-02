@@ -83,7 +83,7 @@ define([
 				})(self._lastFrameTime = window.performance.now());
 
 				setInterval(function increaseSpeed() {
-					self._scroller.setSpeed(self._speed *= 1.0001);
+					self._scroller.setSpeed(self._speed *= 1.001);
 				}, 1000/30);
 			});
 		},

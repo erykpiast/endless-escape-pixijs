@@ -140,33 +140,33 @@ define([ 'squire' ], function(Squire) {
         // });
 
 
-        describe('GameMap creating segments', function() {
-            var gameMap;
-            var segments;
+        // describe('GameMap creating segments', function() {
+        //     var gameMap;
+        //     var segments;
 
-            beforeEach(function() {
-                gameMap = new GameMap();
+        //     beforeEach(function() {
+        //         gameMap = new GameMap();
 
-                segments = [ ];
-                for (var i = 0; i < 20; i++) {
-                    segments.push(gameMap._createSegment());
-                }
-            });
+        //         segments = [ ];
+        //         for (var i = 0; i < 20; i++) {
+        //             segments.push(gameMap._createSegment());
+        //         }
+        //     });
 
-            afterEach(function() {
-                gameMap = null;
+        //     afterEach(function() {
+        //         gameMap = null;
 
-                segments = null;
-            });
+        //         segments = null;
+        //     });
 
 
-            it('should create 20 segments', function() {
-                console.log(segments);
+        //     it('should create 20 segments', function() {
+        //         console.log(segments);
 
-                expect(segments.length).toBe(20);
-            });
+        //         expect(segments.length).toBe(20);
+        //     });
             
-        });
+        // });
 
     });
 
