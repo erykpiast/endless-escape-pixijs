@@ -89,44 +89,6 @@ define([
 
         this._segments = [ ];
 
-        // this._createSegment({
-        //     type: 'wall',
-        //     height: this._currentHeight
-        // });
-
-        // this._createSegment({
-        //     type: 'wall',
-        //     height: this._currentHeight - 1
-        // });
-
-        // this._createSegment({
-        //     type: 'wall',
-        //     height: this._currentHeight
-        // });
-
-        // this._createSegment({
-        //     type: 'wall',
-        //     height: this._currentHeight + 1
-        // });
-
-        // this._createSegment({
-        //     type: 'wall',
-        //     height: this._currentHeight
-        // });
-
-        // this._createSegment({
-        //     type: 'gap'
-        // });
-
-        // this._createSegment({
-        //     type: 'gap'
-        // });
-
-        // this._createSegment({
-        //     type: 'wall',
-        //     height: this._currentHeight - 2
-        // });
-
         for(var i = 0, maxi = Math.floor(this._sceneWidth / Segment.WIDTH) + 2; i < maxi; i++) {
             this._createSegment({
                 type: 'wall',
@@ -194,23 +156,8 @@ define([
         return count;
     };
 
-    GameMap.prototype._drawSegmentType = function(precedingWalls, precedingGaps) {
-        var segmentType = this._draw(this._chances.segment);
-
-        if(segmentType === 'wall') {
-            this._chances.segment.wall = (10 - precedingWalls);
-
-            this._chances.segment.gap = precedingWalls;
-        } else if(segmentType === 'gap') {
-            if((precedingGaps + 1) >= this._currentHeight) {
-                this._chances.segment.gap = -Infinity;
-                this._chances.segment.wall = Infinity;
-            } else {
-                this._chances.segment.gap++;
-            }
-        }
-
-        return segmentType;
+    GameMap.prototype._drawSegmentType = function() {
+        return this._draw(this._chances.segment);
     };
 
     GameMap.prototype._drawDecoration = function() {
@@ -227,28 +174,9 @@ define([
         return decoration;
     };
 
-    GameMap.prototype._createSegment = function(settings) {
-        settings = settings || { };
-
+    GameMap.prototype._adjustHeightChances = function(segment, prevSegment) {
         var precedingWalls = this._countLast('wall');
         var precedingGaps = this._countLast('gap');
-        var segment = {
-            type: settings.type || this._drawSegmentType(precedingWalls, precedingGaps),
-            height: this._currentHeight
-        };
-        var prevSegment = this._segments[this._segments.length - 1] || {
-            height: this._currentHeight
-        };
-
-        if(segment.type === 'wall') {
-            if('undefined' !== typeof settings.height) {
-                segment.height = settings.height;
-            } else {
-                segment.height = this._drawHeight();
-            }
-
-            this._currentHeight = segment.height;
-        }
 
         if(segment.type === 'wall') {
             if(precedingGaps > 0) {
@@ -319,6 +247,57 @@ define([
                 }
             }, this);
         }
+    };
+
+    GameMap.prototype._adjustSegmentChances = function(segment, prevSegment) {
+        var precedingWalls = this._countLast('wall');
+        var precedingGaps = this._countLast('gap');
+
+        // if segment is transition between different heights, it can't be the last segment before gap
+        if((segment.variant === 'lth') || (segment.variant === 'htl')) {
+            this._chances.segment.gap = -Infinity;
+            this._chances.segment.wall = Infinity;
+        } else if(segment.variant === 'front') {
+            this._chances.segment.gap = -Infinity;
+            this._chances.segment.wall = Infinity;
+        } else if(prevSegment.height !== segment.height) {
+            this._chances.segment.gap = -Infinity;
+            this._chances.segment.wall = Infinity;
+        } else if(segment.type === 'wall') {
+            this._chances.segment.wall = (20 - precedingWalls);
+
+            this._chances.segment.gap = Math.round(precedingWalls / 2);
+        } else if(segment.type === 'gap') {
+            if((precedingGaps + 1) >= this._currentHeight) {
+                this._chances.segment.gap = -Infinity;
+                this._chances.segment.wall = Infinity;
+            } else {
+                this._chances.segment.gap++;
+            }
+        }
+
+    };
+
+    GameMap.prototype._createSegment = function(settings) {
+        settings = settings || { };
+
+        var segment = {
+            type: settings.type || this._drawSegmentType(),
+            height: this._currentHeight
+        };
+        var prevSegment = this._segments[this._segments.length - 1] || {
+            height: this._currentHeight
+        };
+
+        if(segment.type === 'wall') {
+            if('undefined' !== typeof settings.height) {
+                segment.height = settings.height;
+            } else {
+                segment.height = this._drawHeight();
+            }
+
+            this._currentHeight = segment.height;
+        }
 
         if(segment.height !== prevSegment.height) {
             if((segment.type === 'wall') && (prevSegment.type === 'wall')) {
@@ -348,13 +327,6 @@ define([
             segment.variant = this._drawDecoration();
         }
 
-        // if segment is transition between different heights, it can't be the last segment before gap
-        if((segment.variant === 'lth') || (segment.variant === 'htl')) {
-            this._chances.segment.gap = -Infinity;
-            this._chances.segment.wall = Infinity;
-        }
-
-
         if(segment.type === 'wall') {
             segment.element = this._segmentsPools[segment.variant].take();
 
@@ -367,6 +339,10 @@ define([
         this.addChild(segment.element);
 
         this._segments.push(segment);
+
+
+        this._adjustHeightChances(segment, prevSegment);
+        this._adjustSegmentChances(segment, prevSegment);
 
 
         return segment;
